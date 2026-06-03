@@ -4,6 +4,10 @@
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{titlesec}
+
+
+\titlespacing*{\subsection}{0pt}{1.5ex plus 0.5ex minus 0.2ex}{0.5ex plus 0.2ex}
 
 % Reduce spacing in lists
 \setlist{nosep, leftmargin=1em}
@@ -12,18 +16,8 @@
 \pagestyle{empty}
 
 % Compact section headers with a clean visual line
-\makeatletter
-\renewcommand{\section}{\@startsection{section}{1}{0mm}%
-                        {-1.5ex plus -.5ex minus -.2ex}%
-                        {1ex plus .2ex}%
-                        {\normalfont\large\bfseries\scshape\color{blue!60!black}\hrulefill\ }}
-\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
-                        {-1explus -.5ex minus -.2ex}%
-                        {0.5ex plus .2ex}%
-                        {\normalfont\normalsize\bfseries\color{black!80}}}
-\makeatother
 
-\setcounter{secnumdepth}{0} % Disable section numbering
+% \setcounter{secnumdepth}{0} % Disable section numbering
 
 % Tightened column separation to fit more content in portrait mode
 \setlength{\columnsep}{0.5cm}
@@ -35,8 +29,8 @@
 
 % Title block
 \begin{center}
-     \Large{\textbf{Exam Cheatsheet}} \\
-     \small{Course / Subject Name}
+     \Large{\textbf{Examen FLP}} \\
+     \small{Autori: Matteo, Petru, Robert}
 \end{center}
 
 % Include sections from the sections folder

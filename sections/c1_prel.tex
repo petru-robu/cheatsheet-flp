@@ -1,0 +1,135 @@
+\section{Preliminarii matematice - C1}
+\subsection{Mulțimi}
+\textbf{Definiție:} Fie $X$ o mulțime. Numim $A \subseteq \mathcal{P}(X)$ mulțime Moore pe $X$ dacă $X \in A$, iar, pentru orice $B \subseteq A$ avem $\bigcap B \in A$.
+
+\textbf{Teoremă:} Fie $X$ o mulțime și $A$ o mulțime Moore pe $X$. Atunci există unic $C \in A$, numit minimul lui $A$ astfel încât pentru orice $D \in A$, avem $C \subseteq D$.
+
+\subsection{Perechi ordonate}
+\textbf{Definiție:} $(x, y) := \{\{x\}, \{x, y\}\}$.
+
+\textbf{Propoziție:} Fie $x, y, u, v$ cu $(x, y) = (u, v)$. Atunci $x = u$ și $y = v$.
+
+\textbf{Propoziție:} Fie $x \in X$ și $y \in Y$. Atunci $(x, y) \in \mathcal{P}(\mathcal{P}(X \cup Y))$.
+
+\textbf{Demonstrație:} Vrem ca pentru orice $z \in (x, y)$ să avem $z \in \mathcal{P}(X \cup Y)$. 
+Fie $z \in (x, y)$, vrem ca pentru orice $t \in z$, $t \in X \cup Y$. $t \in X$ sau $t \in Y$. 
+Dar $z = \{x\}$ sau $z = \{x, y\}$. Cum $t \in z \implies t = x$ sau $t = y$. Deci $t \in X$ sau $t \in Y$.
+
+\textbf{Definiție:} $X \times Y := \{w \in \mathcal{P}(\mathcal{P}(X \cup Y)) \mid \text{există } x \in X \text{ și } y \in Y \text{ cu } w = (x, y)\}$. 
+Reprezintă toate perechile ordonate de elemente din $X$ cu elemente din $Y$.
+
+\subsection{Relații binare}
+\textbf{Definiție:} Fie $R$ o mulțime. Următoarele afirmații sunt echivalente:
+\begin{itemize}
+    \item există $A$ și $B$ astfel încât $R \subseteq A \times B$
+    \item elementele lui $R$ sunt perechi ordonate
+    \item $R$ este o relație între $A$ și $B$
+\end{itemize}
+
+\textbf{Definiție:} Fie $A$ o mulțime. $\Delta_A :=$ relația diagonală pe $A$. 
+$\Delta_A := \{p \in A \times A \mid \text{există } a \text{ cu } p = (a, a)\}$.
+
+\textbf{Definiție:} Fie $A, B$ mulțimi. $R$ este o relație între $A$ și $B$. $R$ este grafic dacă pentru orice $a \in A$ există unic $b \in B$ astfel încât $(a, b) \in R$.
+
+\textbf{Definiție:} Fie $A, B$ mulțimi. Spunem că $f$ este funcție între $A$ și $B$ ($f: A \to B$) dacă există $R$, un grafic între $A$ și $B$ astfel încât $f = (A, B, R)$. 
+$A$ se numește domeniu, $B$ se numește codomeniu. 
+Pentru orice $a \in A$ notăm $f(a)$ acel unic $b \in B$ cu $(a, b) \in R$.
+
+\textbf{Propoziție:} Fie $R$ o relație binară. Următoarele afirmații sunt echivalente:
+\begin{itemize}
+    \item există $A$ și $B$ astfel încât $R$ este grafic între $A$ și $B$
+    \item pentru orice $x, y, z$ cu $(x, y), (x, z) \in R$ avem $y = z$
+\end{itemize}
+
+\textbf{Demonstrație} $\implies$: $R \subseteq A \times B$ și $R$ este grafic (pentru orice $a \in A$, există unic $b \in B$). 
+Deci, dacă $(x, y) \in R$ și $(x, z) \in R \implies y = z$.
+
+\textbf{Demonstrație} $\impliedby$: Pentru orice $x, y, z$, cu $(x, y), (x, z) \in R$ avem $y = z \implies R$ este grafic pe $A, B$? 
+Fie $A = \{x \mid \exists y \text{ astfel încât } (x, y) \in R\}$ și $B = \{y \mid \exists x \text{ astfel încât } (x, y) \in R\}$. 
+Pentru orice pereche $(x, y) \in R$, $x \in A$ și $y \in B \implies R \subseteq A \times B$. 
+Pentru orice $x, y, z$ cu $(x, y), (x, z) \in R \implies y = z$. 
+$\implies$ pentru orice $a \in A$, există unic $b \in B$ cu $(a, b) \in R \implies R$ este grafic.
+
+\textbf{Propoziție:} Fie $R$ relație binară. $R$ este grafic între $A$ și $B$, $R$ este grafic între $C$ și $D$. Atunci $A = C$.
+
+\textbf{Demonstrație:} Fie $x \in A$. $R$ grafic între $A$ și $B \implies \exists y \in B$ astfel încât $(x, y) \in R$. 
+$R$ grafic între $C$ și $D \implies R \subseteq C \times D \implies (x, y) \in C \times D \implies x \in C$. 
+Deci, $A \subseteq C$. Analog, $C \subseteq A \implies A = C$.
+
+\textbf{Notație:} $id_A := (A, A, \Delta_A)$ (funcția identitate).
+
+\textbf{Notație:} $f: A \to B$, $f \in (\{A\} \times \{B\}) \times \mathcal{P}(A \times B)$. 
+$B^A := \{f \in (\{A\} \times \{B\}) \times \mathcal{P}(A \times B) \mid f \text{ funcție}\}$ - mulțimea tuturor funcțiilor de la $A$ la $B$.
+
+\textbf{Definiție:} $A, B$, $f: A \to B$, $X \subseteq A$, $Y \subseteq B$.
+\begin{itemize}
+    \item $f(X) := \{y \in B \mid \exists x \in X \text{ cu } f(x) = y\}$ - imaginea directă
+    \item $f^*(Y) := \{x \in A \mid f(x) \in Y\}$ - imaginea inversă
+    \item $f(A) = Im(f)$
+\end{itemize}
+
+\textbf{Definiție:} $A, B$, $f: A \to B$.
+\begin{itemize}
+    \item $f$ injectivă dacă: $\forall x, y \in A$ cu $x \neq y$ avem $f(x) \neq f(y)$
+    \item $f$ surjectivă dacă: $\forall z \in B \implies \exists x \in A$ cu $f(x) = z$
+\end{itemize}
+
+\subsection{Mulțimea vidă și funcții}
+Există $f: \emptyset \to A$? $\implies \exists R$ cu $f = (\emptyset, A, R)$. 
+$R \subseteq \emptyset \times A \implies R = \emptyset \implies f = (\emptyset, A, \emptyset)$ - unica funcție de la $\emptyset$ la $A$.
+
+Există $g: A \to \emptyset$? $\implies \exists R \subseteq A \times \emptyset \implies R = \emptyset$. Fals dacă $A \neq \emptyset$.
+
+\subsection{Singleton-uri}
+$X$ singleton := mulțime cu un singur element. $X := \{x\}$.
+
+Fie $A$ mulțime, atunci $\exists! f: A \to X$ (duce orice element din $A$ în elementul din $X$).
+
+$f: X \to A$ - funcțiile care duc pe rând elementul din $X$ în fiecare element din $A$. 
+Mulțimea funcțiilor de la $X$ la $A$ și $A$ sunt în corespondență biunivocă.
+
+\subsection{Familii}
+\textbf{Definiție:} Familie indexată după $I$ = un grafic al cărui domeniu este $I$. Notăm $F = (F_i)_{i \in I}$.
+
+$\bigcup_{i \in I} F_i$ și $\bigcap_{i \in I} F_i$.
+
+$\prod_{i \in I} F_i :=$ produsul cartezian al lui $F$.
+
+\subsection{Formule}
+Proprietăți pe care o mulțime $A$ trebuie să le verifice pentru a fi mulțime de formule:
+\begin{itemize}
+    \item $V \subseteq A$ (variabilele sunt formule)
+    \item dacă $\varphi \in A$, atunci $\neg\varphi \in A$
+    \item dacă $\varphi, \psi \in A$, atunci $\to\varphi\psi \in A$
+\end{itemize}
+
+\textbf{Propoziție:} Principiul inducției pe formule. Fie $B \subseteq Form$ astfel încât:
+\begin{itemize}
+    \item $V \subseteq B$
+    \item dacă $\varphi \in B$, atunci $\neg\varphi \in B$
+    \item dacă $\varphi, \psi \in B$, atunci $\to\varphi\psi \in B$
+\end{itemize}
+Atunci: $B = Form$.
+
+\textbf{Propoziție:} Proprietatea de citire. Fie $\chi \in Form$. Atunci se întâmplă exact una:
+\begin{itemize}
+    \item $\chi \in V$
+    \item există $\varphi \in Form$ cu $\chi = \neg\varphi$
+    \item există $\varphi, \psi \in Form$ cu $\chi = \to\varphi\psi$
+\end{itemize}
+
+\textbf{Propoziție:} Proprietatea de citire unică. Fie $\varphi, \psi, \varphi', \psi' \in Form$ cu $\to\varphi\psi = \to\varphi'\psi'$. Atunci $\varphi = \varphi'$ și $\psi = \psi'$.
+
+\textbf{Propoziție:} Principiul recursiei pe formule. Fie $A$ o mulțime și $G_0: V \to A$, $G_\neg: A \to A$, $G_\to: A^2 \to A$. Atunci $\exists! F: Form \to A$ astfel încât:
+\begin{itemize}
+    \item pentru orice $v \in V$, $F(v) = G_0(v)$
+    \item pentru orice $\varphi \in Form$, $F(\neg\varphi) = G_\neg(F(\varphi))$
+    \item pentru orice $\varphi, \psi \in Form$, $F(\to\varphi\psi) = G_\to(F(\varphi), F(\psi))$
+\end{itemize}
+
+\textbf{Corolar:} (Mulțimea variabilelor). $\exists! Var: Form \to \mathcal{P}(V)$ astfel încât:
+\begin{itemize}
+    \item pentru orice $v \in V$, $Var(v) = \{v\}$
+    \item pentru orice $\varphi \in Form$, $Var(\neg\varphi) = Var(\varphi)$
+    \item pentru orice $\varphi, \psi \in Form$, $Var(\to\varphi\psi) = Var(\varphi) \cup Var(\psi)$
+\end{itemize}
