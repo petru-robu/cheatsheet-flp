@@ -1,47 +1,22 @@
-\documentclass[9pt]{article}
-\usepackage{multicol}
-\usepackage[top=1cm, left=1cm, right=1cm, bottom=1cm]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{enumitem}
-\usepackage{xcolor}
-\usepackage{titlesec}
+\documentclass[10pt,a4paper]{article}
+\usepackage{preamble}
 
-
-\titlespacing*{\subsection}{0pt}{1.5ex plus 0.5ex minus 0.2ex}{0.5ex plus 0.2ex}
-
-% Reduce spacing in lists
-\setlist{nosep, leftmargin=1em}
-
-% Turn off header and footer
-\pagestyle{empty}
-
-% Compact section headers with a clean visual line
-
-% \setcounter{secnumdepth}{0} % Disable section numbering
-
-% Tightened column separation to fit more content in portrait mode
-\setlength{\columnsep}{0.5cm}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5ex plus 0.2ex}
+\newcommand{\instr}[1]{\;\mathrm{\mathbf{#1}}\;}
 
 \begin{document}
-\begin{multicols*}{2} % 2 columns work best for vertical cheatsheets
-
-% Title block
 \begin{center}
-     \Large{\textbf{Examen FLP}} \\
-     \small{Autori: Matteo, Petru, Robert}
+	{\large\sffamily\bfseries Examen FLP}
 \end{center}
+\vspace{-0.6em}
 
-% Include sections from the sections folder
-\input{sections/c1_prel.tex}
-\input{sections/c2_imp.tex}
-\input{sections/c3_denot.tex}
-\input{sections/c4_axiom.tex}
-\input{sections/c5_prolog.tex}
-\input{sections/c6_rezo.tex}
-\input{sections/c7_lambda.tex}
-\input{sections/c8_tlambda.tex}
-
+\begin{multicols*}{2}
+	\input{sections/c1_prel}
+	\input{sections/c2_imp}
+	\input{sections/c3_denot}
+	\input{sections/c4_axiom}
+	\input{sections/c5_prolog}
+	\input{sections/c6_rezo}
+	\input{sections/c7_lambda}
+	\input{sections/c8_tlambda}
 \end{multicols*}
 \end{document}

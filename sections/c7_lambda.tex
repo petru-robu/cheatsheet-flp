@@ -1,0 +1,221 @@
+\section{Programare funcţională - C7}
+\subsection{Lambda-calcul fara tipuri}
+
+Fixăm o multime numarabilă de variabile $V = \{x_n \mid n \in \mathbb{N}\}$.
+
+Un $\lambda$ -termen (fara tipuri) are exact una dintre urmatoarele forme:
+\begin{itemize}
+	\item o variabila $x \in V$
+	\item o $\lambda$-abstactiune: daca $x \in V$ si $M$ este un $\lambda$-termen, atunci $\lambda x.M$ este un $\lambda$-termen;
+	\item o aplicatie: daca $M$ si $N$ sunt $\lambda$-termeni, atunci $MN$ este un $\lambda$-termen.
+\end{itemize}
+
+\subsection{Variabile si variabile libere}
+
+Putem defini recursiv multimea variabilelor unui termen prin clauzele:
+\begin{itemize}
+	\item $Var(v)=\{v\};$
+	\item $Var(\lambda x.M) = Var(M) \cup\{x\};$
+	\item $Var(MN)=Var(M)\cup Var(N);$
+\end{itemize}
+
+iar pe cea a variabilelor libere prin:
+\begin{itemize}
+	\item $FV(v)=\{v\}$
+	\item $FV(\lambda x.M) = FV(M)\setminus \{x\}$
+	\item $FV(MN)=FV(M)\cup FV(N).$
+\end{itemize}
+
+\subsection{Interpretarea informala}
+
+$\lambda$-termeni au fost ganditi ca reprezentand functii.
+fixand $x,y,z \in V$ distincte 2 cate 2
+\begin{itemize}
+	\item $\lambda x.M$ reprezinta functia care duce pe x in M, de exemplu $\lambda x.x$ e functia identitate, si $\lambda x.y$ functia constanta egala cu y
+	\item $MN$ reprezinta rezultatul aplicarii "functiei" $M$ la "argumentul" $N$
+\end{itemize}
+
+\subsection{Definirea substitutiei}
+
+Pentru orice $\lambda$-termeni $M,N$ si orice $x \in V$, vom defini termenul $M[x := N]$, reprezentand $M$ in care $x$ a fost inlocuit cu $N$. O vom face recursiv, in felul urmator (unde $x,y\in V$ cu $x \neq y$ iar $N,P,Q$ sunt $\lambda$-termeni):
+\begin{itemize}
+	\item $x[x := N] := N$;
+	\item $x[y := N] := x$;
+	\item $(PQ)[x := N] := (P[x:=N])(Q[x:=N])$;
+	\item $(\lambda x.P)[x:=N]:=\lambda x.P$;
+	\item $(\lambda y.P)[x:=N]:=\lambda y.(P[x:=N])$, daca $y \not\in FV(N)$;
+	\item $(\lambda y.P)[x:=N]:=\lambda z.(P[y:=z][x:=N])$ daca $y \in FV(N)$, unde $z$ este variabila de indice minim care nu apartine lui $Var(\lambda x.(NP))$, caz care corespunde fenomenului prezentat mai devreme;
+\end{itemize}
+
+\subsection{Alpha-echivalenta}
+
+Numim $\alpha$-echivalenta si o notam $\equiv_\alpha$ cea mai mica relatie de echivalenta $\equiv$ pe $\lambda$-termeni care satisface urmatoarele:
+\begin{itemize}
+	\item pentru orice $x,y \in V$ si orice $\lambda$-termen $M$ cu $y \not\in FV(M)$ , $ \lambda x.M \equiv \lambda y.(M[x:=y])$;
+	\item pentru orice $x \in V$ si orice $\lambda$-termeni $M,N$ cu $M\equiv N$, avem $\lambda x.M\equiv \lambda x.N$;
+	\item pentru orice $\lambda$-termeni $M,N,P$ cu $M \equiv N$, avem $MP \equiv NP$ si $PM \equiv PN$.
+\end{itemize}
+
+\subsection{Beta-reductie}
+
+Numim $\beta$-reductie si o notam cu $\to_\beta$ cea mai mica relatie $\to$ pe $\lambda$-termeni care satisface urmatoarele, pentru orice $\lambda$-termeni $M,N,P$ si orice $x\in V$:
+\begin{itemize}
+	\item $(\lambda x.M)N\to M[x:=N]$;
+	\item daca $M\to N$, atunci $\lambda x.M \to \lambda x.N$, $MP \to NP$ si $PM \to PN$.
+\end{itemize}
+Notam cu $\to_\beta^*$ inchiderea reflexiv-tranzitiva a lui $\to_\beta$.
+
+Un $\lambda$-termen M se numeste \textbf{forma normala} daca nu exista N cu $M \to_\beta N$.
+Daca M si N sunt $\lambda$-termeni, N se numeste \textbf{forma normala a lui} M daca M $\to_\beta^*$ N si N este forma Normala.
+
+\subsection{Normalizare si confluenta}
+
+Daca notam $I:= \lambda x.x, \omega := \lambda x.(xx)$ si $\Omega := \omega\omega $, se observa ca pentru orice M,
+\begin{itemize}
+	\item $IM=(\lambda x.x)M \to_\beta x[x:=M]=M$.
+	\item $\omega M= (\lambda x.(xx))M \to_\beta (xx)[x:=M]=MM$.
+\end{itemize}
+
+Asadar, $\Omega =\omega\omega \to \omega\omega = \Omega$, deci exita siruri infinite de $\beta$-reductii. Aceasta face ca $\lambda$-calculul fara tipuri sa nu fie normalizant.
+
+El are, in schimb, o proprietate pozitivă, anume aceea de
+confluenţă (modulo $\alpha$-echivalenţă): pentru orice $M,N_1,N_2$ cu $M \to_\beta^* N_1$ si $M\to_\beta^* N_2$ exista $P_1,P_2$ cu $N_1 \to_\beta^* P_1$, $N_2\to_\beta^* P_2$ si $P_1\equiv_\alpha P_2$.
+
+\subsection{Valori Booleene}
+
+Daca notam cu true $\lambda$-termenul $\lambda x.\lambda y.x$ iar cu false $\lambda$-termenul $\lambda x.\lambda y.y$ atunci ideea de if M then P else Q se poate reprezenta prin (MP)Q.
+avand in vedere ca $M \to_\beta^* true$, atunci
+\begin{center}
+	$(MP)Q\to_\beta^*P$
+\end{center}
+iar daca $M \to_\beta^* false$ atunci
+\begin{center}
+	$(MP)Q\to_\beta^*Q$
+\end{center}
+
+\subsection{Numere naturale}
+
+un $n \in \mathbb{N}$ este privit ca functia
+\begin{center}
+	$f \mapsto f^{(n)}$,
+\end{center}
+unde $f^{(n)}$ inseamna compunerea lui f cu el insusi de n ori
+asadar n va fi reprezentat de $\lambda$-termenul $\lambda f. \lambda x.(f^{(n)}x)$.
+
+Riguros, luam $f,x \in V$ cu $f\not=x$ punem $D_0 := x$ si pentru orice $n \in \mathbb{N}, D_{n+1}:=fD_n$. Punem apoi, pentru orice $n\in \mathbb{N},C_n:=\lambda f.\lambda x.D_n$ si il numum numerarul Church asociat lui n.
+
+Putem acum defini un "predicat" care verifica daca un numar este zero prin:
+
+\begin{center}
+	\textbf{iszero}:= $\lambda n.\lambda x.\lambda y.((n(\lambda z.y))x)$.
+\end{center}
+Exemplu:
+\begin{align*}
+	\textbf{iszero } C_0 & = \textbf{iszero} (\lambda f.\lambda x.x)                               \\
+	                    & \to_\beta \lambda x.\lambda y.(((\lambda f.\lambda x.x)(\lambda z.y))x) \\
+	                    & \to_\beta \lambda x.\lambda y.((\lambda x.x)x)                          \\
+	                    & \to_\beta \lambda x.\lambda y.x= \textbf{true}.                         \\
+\end{align*}
+similar
+\begin{align*}
+	\textbf{iszero } C_1 & = \textbf{iszero} (\lambda f.\lambda x.fx)                                \\
+	                     & \to_\beta \lambda x.\lambda y.(((\lambda f.\lambda x.fx)(\lambda z.y))x)  \\
+	                   & \to_\beta \lambda x.\lambda y.((\lambda x.(\lambda z.y)x)x)                       \\
+	                   & \to_\beta \lambda x.\lambda y.((\lambda z.y)x)                                    \\
+	                   & \to_\beta \lambda x.\lambda y.y = \textbf{false}.
+\end{align*}
+scris mai scurt, $\textbf{iszero}\ C_1 \to_\beta^* \textbf{false}$.
+
+\subsection{Succesorul}
+dat fiind ca, pentru orice n:
+
+\begin{center}
+	$C_n(f)(x)=f^{(n)}(x)$
+\end{center}
+\begin{center}
+	$C_{n+1}(f)(x)=f^{(n+1)}(x)=f(C_n(f)(x)),$
+\end{center}
+
+putem defini un $\lambda$ termen care sa reprezinte functia succesor, prin
+\begin{center}
+	\textbf{succ}:=$\lambda n.\lambda f.\lambda x.(f((nf)x))$.
+\end{center}
+Exemplu:
+\begin{align*}
+	\textbf{succ } C_0 & = \textbf{succ} (\lambda f.\lambda x.x)                        \\
+	                 & \to_\beta \lambda f.\lambda x.(f(((\lambda f.\lambda x.x)f)x)) \\
+	                 & \to_\beta \lambda f.\lambda x.(f((\lambda x.x)x))              \\
+	                  & \to_\beta \lambda f.\lambda x.(fx) = C_1
+\end{align*}
+
+\subsection{alte operatii pe numere}
+pentru adunare pe numere naturale, pentru orice n si m
+\begin{center}
+		$C_{n+m}(f)(x)=f^{(n+m)}(x)=f^{(n)}(f^{(m)}(x))=C_n(f)(C_m(f)(x))$
+\end{center}
+ceea ce duce la definitia
+\begin{center}
+	\textbf{add}:=$\lambda n.\lambda m.\lambda f.\lambda x.((nf)((mf)x))$
+\end{center}
+similar putem face si urmatoarele funcii
+\begin{itemize}
+	\item  \textbf{mul}:=$\lambda n.\lambda m.\lambda f.(n(mf))$
+	\item  \textbf{pow}:=$\lambda b.\lambda e.(eb)$
+	\item  \textbf{pred}:=$\lambda n.\lambda f.\lambda x.(((n(\lambda g.\lambda h.(h(gf))))(\lambda u.x))(\lambda u.u))$
+	\item  \textbf{pair}:=$\lambda x.\lambda y.\lambda f.(fxy)$
+	\item \textbf{fst}:=$\lambda p.(p\ \textbf{true})$
+	\item \textbf{snd}:=$\lambda p.(p\ \textbf{false})$
+	\item \textbf{aux}:=$\lambda x.(\textbf{pair}\ (\textbf{snd}\ x)\ (\textbf{succ}\ (\textbf{snd}\ x)))$
+	\item \textbf{predp}:=$\lambda n.(\textbf{fst}\ (n\ \textbf{aux}\ (\textbf{pair}\ C_0\ C_0)))$
+\end{itemize}
+
+\subsection{recursivitate}
+intuitiv functia factorial ar satisface ecuatia
+\begin{center}
+	$\textbf{fact} = \lambda n.\,(((\textbf{iszero}\ n)\ C_1)
+	((\textbf{mul}\ n)(\textbf{fact}\ (\textbf{pred}\ n))))$
+\end{center}
+sau
+\begin{center}
+	$\textbf{fact} = (\lambda f.\lambda n.\,(((\textbf{iszero}\ n)\ C_1)
+	((\textbf{mul}\ n)(f(\textbf{pred}\ n)))))\ \textbf{fact}$
+\end{center}
+
+\subsection{puncte fixe}
+reprezentarea Alan Turing:
+\begin{center}
+	U:=$\lambda u. \lambda x.(x((uu)x))$
+
+\end{center}
+\begin{center}
+	Y:=UU
+\end{center}
+Y este punctul fix
+
+demonstratie:
+\begin{align*}
+	YM & = (UU)M                                   \\
+	   & \to_\beta ((\lambda x.(x((uu)x)))[u:=U])M \\
+	   & = (\lambda x.(x((UU)x)))M                 \\
+	   & =(\lambda x.(x(Yx)))M                     \\
+	   & \to_\beta (x(Yx))[x:=M]                   \\
+	   & =M(YM)
+\end{align*}
+solutie gasita de Haskell Curry este:
+\begin{center}
+	Y:=$\lambda u.((\lambda x.u(xx))(\lambda x.u(xx)))$
+\end{center}
+
+
+\subsection{functii reprezentabile}
+pentru orice $k \in \mathbb{N}$, o functie $f:\mathbb{N}^k\to \mathbb{N} \cup \{\bot\}$
+este $\lambda$-reprezentabila daca exista un $\lambda$-termen $M$ astfel incat, pentru orice $n_1,\ldots,n_k \in \mathbb{N}$, daca $f(n_1,\ldots,n_k)\in \mathbb{N}$ atunci
+\begin{center}
+	$MC_{n_1}...C_{n_k} \to_\beta^* C_{f(n_1,...,n_k)}$
+\end{center}
+
+iar daca $f(n_1,...,n_k)=\bot$ atunci
+\begin{center}
+	$MC_{n_1}\ldots C_{n_k}$
+\end{center}
+nu are forma normala
