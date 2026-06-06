@@ -1,0 +1,262 @@
+\section{IMP}
+
+\subsection{Big-step}
+
+\subsubsection{Exercițiul 1}
+
+Fie $c$ o instrucțiune și $\sigma, \sigma', \sigma'' \in \Sigma$, cu $(c, \sigma) \Downarrow \sigma'$ și $(c, \sigma) \Downarrow \sigma''$, atunci $\sigma' = \sigma''$.
+
+
+Inducție după demonstrația lui $(c, \sigma) \Downarrow \sigma'$.
+
+\textbf{Cazul 1}
+$c = \mathbf{\mathrm{skip}}$
+
+Avem regula
+\[
+	(\mathrm{\mathbf{skip}}, \sigma) \Downarrow \sigma
+\]
+Deci
+
+\[
+	\begin{cases}
+		(c, \sigma) \Downarrow \sigma' \\
+		(c, \sigma) \Downarrow \sigma''
+	\end{cases}
+	\implies
+	\begin{cases}
+		\sigma' = \sigma \\
+		\sigma'' = \sigma
+	\end{cases}
+\]
+
+Deci $\sigma' = \sigma''$.
+
+\textbf{Cazul 2:} $c = X := a$.
+
+Ultima regulă din ambele demonstrații este regula atribuirii, deci
+\[
+	\sigma' = \sigma_{X \mapsto e_\sigma(a)}
+	\quad\text{și}\quad
+	\sigma'' = \sigma_{X \mapsto e_\sigma(a)}.
+\]
+Prin urmare, $\sigma' = \sigma''$.
+
+\textbf{Cazul 3:} $c = c_0;c_1$.
+
+Există $\rho',\rho'' \in \Sigma$ astfel încât
+\[
+	\begin{aligned}
+		(c_0,\sigma) & \Downarrow\rho',
+		             & (c_1,\rho')       & \Downarrow\sigma',  \\
+		(c_0,\sigma) & \Downarrow\rho'',
+		             & (c_1,\rho'')      & \Downarrow\sigma''.
+	\end{aligned}
+\]
+Aplicând ipoteza de inducție primei perechi de demonstrații, obținem
+$\rho'=\rho''$. Aplicând apoi ipoteza de inducție demonstrației lui
+$(c_1,\rho')\Downarrow\sigma'$, obținem $\sigma'=\sigma''$.
+
+\textbf{Cazul 4:} $c=\mathbf{if}\ b\ \mathbf{then}\ c_0\
+	\mathbf{else}\ c_1$ și $e_\sigma(b)=1$.
+
+Ultima regulă a primei demonstrații este
+\[
+	\frac{e_\sigma(b)=1 \qquad (c_0,\sigma)\Downarrow\sigma'}
+	{(\mathbf{if}\ b\ \mathbf{then}\ c_0\
+		\mathbf{else}\ c_1,\sigma)\Downarrow\sigma'}.
+\]
+Analizăm acum ultima regulă a demonstrației lui
+$(c,\sigma)\Downarrow\sigma''$. Există numai două reguli big-step
+pentru o instrucțiune \textbf{if}: prima are premisa $e_\sigma(b)=1$,
+iar a doua are premisa $e_\sigma(b)=0$. Cum evaluarea expresiei
+booleene $b$ în starea fixată $\sigma$ are valoarea unică $1$, nu poate
+fi adevărat simultan că $e_\sigma(b)=0$. Așadar, și a doua demonstrație
+folosește prima regulă, având premisa
+$(c_0,\sigma)\Downarrow\sigma''$. Aplicând ipoteza de inducție celor
+două premise
+\[
+	(c_0,\sigma)\Downarrow\sigma'
+	\quad\text{și}\quad
+	(c_0,\sigma)\Downarrow\sigma'',
+\]
+obținem $\sigma'=\sigma''$.
+
+\textbf{Cazul 5:} $c=\mathbf{if}\ b\ \mathbf{then}\ c_0\
+	\mathbf{else}\ c_1$ și $e_\sigma(b)=0$.
+
+Ultima regulă a primei demonstrații este
+\[
+	\frac{e_\sigma(b)=0 \qquad (c_1,\sigma)\Downarrow\sigma'}
+	{(\mathbf{if}\ b\ \mathbf{then}\ c_0\
+		\mathbf{else}\ c_1,\sigma)\Downarrow\sigma'}.
+\]
+Pentru a doua demonstrație, ultima regulă trebuie să fie tot regula
+corespunzătoare valorii $0$: expresia $b$, evaluată în aceeași stare
+$\sigma$, nu poate avea și valoarea $1$. Prin urmare, a doua
+demonstrație are premisa $(c_1,\sigma)\Downarrow\sigma''$. Ipoteza de
+inducție aplicată premiselor
+\[
+	(c_1,\sigma)\Downarrow\sigma'
+	\quad\text{și}\quad
+	(c_1,\sigma)\Downarrow\sigma''
+\]
+dă $\sigma'=\sigma''$.
+
+\textbf{Cazul 6:} $c=\mathbf{while}\ b\ \mathbf{do}\ c_0$ și
+$e_\sigma(b)=0$.
+
+Regula pentru continuarea buclei cere premisa $e_\sigma(b)=1$, dar aici avem
+$e_\sigma(b)=0$. Deoarece evaluarea lui $b$ în starea $\sigma$ are o
+singură valoare, regula de continuare nu este aplicabilă. Rămâne numai
+regula de oprire:
+\[
+	\frac{e_\sigma(b)=0}
+	{(\mathbf{while}\ b\ \mathbf{do}\ c_0,\sigma)\Downarrow\sigma}.
+\]
+Concluzia acestei reguli arată că starea finală este chiar starea
+inițială $\sigma$. Așadar, din prima derivare
+$(c,\sigma)\Downarrow\sigma'$ rezultă $\sigma'=\sigma$.
+
+Același argument se aplică celei de-a doua derivări
+$(c,\sigma)\Downarrow\sigma''$, deoarece instrucțiunea, starea inițială
+și valoarea lui $e_\sigma(b)$ sunt aceleași. Rezultă
+$\sigma''=\sigma$. Prin tranzitivitatea egalității,
+\[
+	\sigma'=\sigma=\sigma'',
+\]
+deci $\sigma'=\sigma''$.
+
+\textbf{Cazul 7:} $c=\mathbf{while}\ b\ \mathbf{do}\ c_0$ și
+$e_\sigma(b)=1$.
+
+Notăm $w:=\mathbf{while}\ b\ \mathbf{do}\ c_0$. Există
+$\rho',\rho''\in\Sigma$ astfel încât
+\[
+	(c_0,\sigma)\Downarrow\rho',
+	\quad (w,\rho')\Downarrow\sigma',
+	\qquad
+	(c_0,\sigma)\Downarrow\rho'',
+	\quad (w,\rho'')\Downarrow\sigma''.
+\]
+Ipoteza de inducție aplicată demonstrațiilor pentru corpul buclei dă
+$\rho'=\rho''$. După această identificare, ipoteza de inducție aplicată
+demonstrațiilor buclei dă $\sigma'=\sigma''$. \qed
+
+\subsection{Small-step}
+
+\subsubsection{Exercițiul 2}
+
+\textbf{Cum definim formal închiderea reflexiv-tranzitivă
+	$\to^*$ a relației $\to$?}
+
+Fie mulțimea configurațiilor
+\[
+	\mathcal C:=\mathrm{Instr}\times\Sigma.
+\]
+Relația small-step este $\to\ \subseteq\mathcal C\times\mathcal C$.
+Definim mai întâi puterile relației:
+\[
+	\to^0:=\Delta_{\mathcal C}
+	=\{(\gamma,\gamma)\mid\gamma\in\mathcal C\},
+\]
+iar, pentru orice $n\in\mathbb N$,
+\[
+	\gamma\to^{n+1}\gamma'
+	\iff
+	\exists\delta\in\mathcal C:
+	\gamma\to^n\delta\ \text{și}\ \delta\to\gamma'.
+\]
+Atunci definim
+\[
+	\boxed{\ \to^*:=\bigcup_{n\in\mathbb N}\to^n\ }.
+\]
+Prin urmare,
+\[
+	\gamma\to^*\gamma'
+	\iff
+	\exists n\in\mathbb N,\ \exists\gamma_0,\ldots,\gamma_n\in\mathcal C
+\]
+astfel încât
+\[
+	\gamma_0=\gamma,\qquad
+	\gamma_n=\gamma',\qquad
+	\gamma_i\to\gamma_{i+1}
+	\quad(0\leq i<n).
+\]
+
+Pentru $n=0$ nu se execută niciun pas, iar condiția devine
+$\gamma=\gamma'$. Acesta este cazul reflexiv:
+\[
+	\gamma\to^*\gamma.
+\]
+Pentru $n\geq1$, relația descrie o succesiune finită de pași
+small-step.
+
+Relația $\to^*$ este tranzitivă: dacă $\gamma\to^*\delta$ prin $m$ pași
+și $\delta\to^*\gamma'$ prin $n$ pași, concatenarea celor două șiruri
+dă $\gamma\to^*\gamma'$ prin $m+n$ pași.
+
+În plus, $\to^*$ conține relația $\to$, deoarece
+$\to=\to^1\subseteq\to^*$. Ea este chiar cea mai mică relație
+reflexivă și tranzitivă ce conține $\to$: pentru orice relație
+$R\subseteq\mathcal C\times\mathcal C$,
+\[
+	\Delta_{\mathcal C}\subseteq R,\quad
+	{\to}\subseteq R,\quad
+	R\circ R\subseteq R
+	\quad\Longrightarrow\quad
+	{\to^*}\subseteq R.
+\]
+
+\subsubsection{Exercițiul 3}
+
+Este continuarea demonstrației de pe penultimul slide din cursul 2.
+
+\subsubsection{Exercițiul 3}
+
+Este continuarea demonstrației de pe penultimul slide din cursul 2.
+
+Tratăm cazul instrucțiunii \textbf{IF}. Presupunem că avem:
+\[
+	(\instr{if}\ b\ \instr{then}\ c_0\ \instr{else}\ c_{1}, \sigma) \to^* (\instr{skip}, \sigma')
+\]
+
+Analizăm cele două cazuri posibile pentru evaluarea condiției booleene $b$ în starea $\sigma$:
+
+\textbf{Cazul 1:} $e_{\sigma}(b) = 1$
+Primul pas de reducere conform semanticii small-step este:
+\[
+	(\instr{if}\ b\ \instr{then}\ c_0\ \instr{else}\ c_{1}, \sigma) \to (c_0, \sigma)
+\]
+Deoarece știm că execuția ajunge la $\instr{skip}$ în starea $\sigma'$, înseamnă că pașii rămași sunt:
+\[
+	(c_0, \sigma) \to^* (\instr{skip}, \sigma')
+\]
+Aplicând \textit{ipoteza inductivă} (deoarece $c_0$ este mai mică structural decât instrucțiunea \textbf{if} inițială), rezultă că:
+\[
+	(c_0, \sigma) \Downarrow \sigma'
+\]
+Conform regulilor semanticii big-step, știind că $e_{\sigma}(b) = 1$ și $(c_0, \sigma) \Downarrow \sigma'$, deducem concluzia dorită:
+\[
+	(\instr{if}\ b\ \instr{then}\ c_0\ \instr{else}\ c_{1}, \sigma) \Downarrow \sigma'
+\]
+
+\textbf{Cazul 2:} $e_{\sigma}(b) = 0$
+În mod similar, primul pas de reducere small-step este evaluarea ramurii false (atenție, starea rămâne $\sigma$):
+\[
+	(\instr{if}\ b\ \instr{then}\ c_0\ \instr{else}\ c_{1}, \sigma) \to (c_1, \sigma)
+\]
+Rezultă că secvența de reduceri continuă astfel:
+\[
+	(c_1, \sigma) \to^* (\instr{skip}, \sigma')
+\]
+Conform \textit{ipotezei inductive} aplicate pe sub-instrucțiunea $c_1$, obținem:
+\[
+	(c_1, \sigma) \Downarrow \sigma'
+\]
+Folosind regula big-step pentru ramura falsă (unde $e_{\sigma}(b) = 0$ și $(c_1, \sigma) \Downarrow \sigma'$), concluzionăm:
+\[
+	(\instr{if}\ b\ \instr{then}\ c_0\ \instr{else}\ c_{1}, \sigma) \Downarrow \sigma'
+\]
+
