@@ -1,0 +1,54 @@
+\section*{C6: Rezoluție}
+
+\subsection{Exemplu de respingere prin rezoluție}
+
+Pentru un scop
+\[
+	G=\forall(\neg A_1\lor\cdots\lor\neg A_m)
+\]
+și o clauză redenumită
+\[
+	C=\forall(B_0\lor\neg B_1\lor\cdots\lor\neg B_k),
+\]
+alegem $A_i$ și $B_0$ cu același simbol de relație. Dacă $\theta$ este
+un cgu al lor, noul scop se obține înlocuind $A_i$ cu corpul clauzei și
+aplicând $\theta$.
+
+Considerăm programul
+\[
+	P=\bigl\{
+		p(a),\quad
+		p(f(x))\leftarrow p(x)
+	\bigr\}
+\]
+și scopul
+\[
+	G_0=\forall\neg p(f(f(y))).
+\]
+La fiecare pas redenumim variabila clauzei recursive:
+\[
+	\begin{aligned}
+	G_0
+	&\xRightarrow[\theta_0=\{x_1\mapsto f(y)\}]
+	{\,p(f(x_1))\leftarrow p(x_1)\,}
+	G_1=\forall\neg p(f(y)),\\
+	G_1
+	&\xRightarrow[\theta_1=\{x_2\mapsto y\}]
+	{\,p(f(x_2))\leftarrow p(x_2)\,}
+	G_2=\forall\neg p(y),\\
+	G_2
+	&\xRightarrow[\theta_2=\{y\mapsto a\}]
+	{\,p(a)\,}
+	G_3=\bot.
+	\end{aligned}
+\]
+Aceasta este o $P$-respingere a lui $G_0$. Substituția calculată,
+restricționată la variabilele scopului inițial, este
+\[
+	(\widetilde{\theta}_2\circ\widetilde{\theta}_1\circ\theta_0)
+	\big|_{\{y\}}=\{y\mapsto a\}.
+\]
+Prin teorema de corectitudine,
+\[
+	P\models p(f(f(a))).
+\]

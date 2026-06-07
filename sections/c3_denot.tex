@@ -1,14 +1,14 @@
-\section{Semantica Denotațională}
+\section*{C3: Semantica Denotațională}
 
 \subsection{Fundamente Teoretice}
 
 Spre deosebire de semantica operațională care definește modul de execuție pas cu pas, semantica denotațională dă un înțeles fiecărei instrucțiuni prin asocierea unor obiecte matematice (mulțimi, funcții), notată tradițional cu $\llbracket \cdot \rrbracket$.
 \begin{itemize}
-    \item \textbf{Expresii:} Expresiile aritmetice iau valori în funcții de la stări ($\Sigma$) la numere, $\llbracket a \rrbracket : \Sigma \to \mathbb{Z}$, iar cele booleene în funcții către $\{0,1\}$.
-    \item \textbf{Instrucțiuni simple și compuse:} Semantica unei instrucțiuni este o relație pe stări, $\llbracket c \rrbracket \subseteq \Sigma^2$. Compoziția secvențială se definește prin compunerea relațiilor matematice.
-    \item \textbf{Instrucțiunea while:} Deoarece definiția sa este structural recursivă, semantica instrucțiunii \textit{while} necesită utilizarea conceptului de cel mai mic punct fix (least fixed point - lfp) pentru un operator monoton construit pe baza condiției și a corpului buclei.
-    \item \textbf{Domenii și CPO:} Pentru a garanta că semantica denotațională generează funcții parțiale (rezultat determinist) și a asigura existența punctului fix, se utilizează mulțimi parțial ordonate complete (CPO) și Teorema lui Kleene în locul Teoremei Knaster-Tarski care se aplică pe toată mulțimea părților.
-    \item \textbf{Abordarea Algebrică:} Întregul limbaj IMP poate fi modelat ca o algebră inițială peste o signatură multisortată, iar funcția semanticii $\llbracket \cdot \rrbracket$ reprezintă unicul morfism de la algebra sintaxei la algebra valorilor denotaționale.
+	\item \textbf{Expresii:} Expresiile aritmetice iau valori în funcții de la stări ($\Sigma$) la numere, $\llbracket a \rrbracket : \Sigma \to \mathbb{Z}$, iar cele booleene în funcții către $\{0,1\}$.
+	\item \textbf{Instrucțiuni simple și compuse:} Semantica unei instrucțiuni este o relație pe stări, $\llbracket c \rrbracket \subseteq \Sigma^2$. Compoziția secvențială se definește prin compunerea relațiilor matematice.
+	\item \textbf{Instrucțiunea while:} Deoarece definiția sa este structural recursivă, semantica instrucțiunii \textit{while} necesită utilizarea conceptului de cel mai mic punct fix (least fixed point - lfp) pentru un operator monoton construit pe baza condiției și a corpului buclei.
+	\item \textbf{Domenii și CPO:} Pentru a garanta că semantica denotațională generează funcții parțiale (rezultat determinist) și a asigura existența punctului fix, se utilizează mulțimi parțial ordonate complete (CPO) și Teorema lui Kleene în locul Teoremei Knaster-Tarski care se aplică pe toată mulțimea părților.
+	\item \textbf{Abordarea Algebrică:} Întregul limbaj IMP poate fi modelat ca o algebră inițială peste o signatură multisortată, iar funcția semanticii $\llbracket \cdot \rrbracket$ reprezintă unicul morfism de la algebra sintaxei la algebra valorilor denotaționale.
 \end{itemize}
 
 \subsection{Demonstrații din curs și Exerciții}
@@ -19,8 +19,8 @@ Spre deosebire de semantica operațională care definește modul de execuție pa
 \textbf{Demonstrație:}
 Notăm $Z := \bigcap \{ Y \subseteq X \mid F(Y) \subseteq Y \}$. Trebuie să arătăm că $Z$ este punct fix.
 \begin{enumerate}
-    \item Arătăm că $F(Z) \subseteq Z$. Fie $x \in F(Z)$ și $Y \subseteq X$ arbitrar cu $F(Y) \subseteq Y$. Cum $Z \subseteq Y$ prin definiția intersecției, avem $F(Z) \subseteq F(Y) \subseteq Y$, deci $x \in Y$. Fiind valabil pentru orice astfel de $Y$, rezultă $x \in Z$, așadar $F(Z) \subseteq Z$.
-    \item Arătăm că $Z \subseteq F(Z)$. Din faptul că $F$ este crescător și $F(Z) \subseteq Z$, obținem aplicând $F$ că $F(F(Z)) \subseteq F(Z)$. Așadar, $F(Z)$ face parte din familia de mulțimi din care se obține $Z$ prin intersecție. Prin urmare, intersecția $Z$ este inclusă în $F(Z)$, adică $Z \subseteq F(Z)$.
+	\item Arătăm că $F(Z) \subseteq Z$. Fie $x \in F(Z)$ și $Y \subseteq X$ arbitrar cu $F(Y) \subseteq Y$. Cum $Z \subseteq Y$ prin definiția intersecției, avem $F(Z) \subseteq F(Y) \subseteq Y$, deci $x \in Y$. Fiind valabil pentru orice astfel de $Y$, rezultă $x \in Z$, așadar $F(Z) \subseteq Z$.
+	\item Arătăm că $Z \subseteq F(Z)$. Din faptul că $F$ este crescător și $F(Z) \subseteq Z$, obținem aplicând $F$ că $F(F(Z)) \subseteq F(Z)$. Așadar, $F(Z)$ face parte din familia de mulțimi din care se obține $Z$ prin intersecție. Prin urmare, intersecția $Z$ este inclusă în $F(Z)$, adică $Z \subseteq F(Z)$.
 \end{enumerate}
 Din cele două incluziuni rezultă $F(Z) = Z$.
 
@@ -35,9 +35,9 @@ Din cele două incluziuni rezultă $F(Z) = Z$.
 \textbf{Enunț:} Fie $(D, \leq)$ un cpo și $f: D \to D$ funcție $\omega$-continuă. Atunci $f$ are lfp.
 
 \textbf{Demonstrație:}
-Observăm că șirul $(f^{(n)}(\perp))_{n \in \mathbb{N}}$ este un lanț crescător, deoarece $\perp \leq f(\perp)$ și funcția e monotonă. Notăm $d := \sup_{n \in \mathbb{N}} f^{(n)}(\perp)$. 
+Observăm că șirul $(f^{(n)}(\perp))_{n \in \mathbb{N}}$ este un lanț crescător, deoarece $\perp \leq f(\perp)$ și funcția e monotonă. Notăm $d := \sup_{n \in \mathbb{N}} f^{(n)}(\perp)$.
 Datorită $\omega$-continuității lui $f$, avem:
-$f(d) = f(\sup f^{(n)}(\perp)) = \sup f^{(n+1)}(\perp) = \sup f^{(n)}(\perp) = d$, deci $d$ este punct fix. 
+$f(d) = f(\sup f^{(n)}(\perp)) = \sup f^{(n+1)}(\perp) = \sup f^{(n)}(\perp) = d$, deci $d$ este punct fix.
 Mai mult, pentru orice punct fix $e$ (unde $f(e) \leq e$), se demonstrează inductiv că $f^{(n)}(\perp) \leq e$, de unde deducem că supremumul $d \leq e$, deci este cel mai mic.
 
 \subsubsection{Proprietățile algebrelor inițiale}
@@ -47,8 +47,8 @@ Mai mult, pentru orice punct fix $e$ (unde $f(e) \leq e$), se demonstrează indu
 \subsubsection{Exercițiu 1: $(\mathcal{R}, \subseteq)$ este o CPO}
 \textbf{Cerinta:} Arătați că $(\mathcal{R}, \subseteq)$ este un CPO, unde $\mathcal{R}$ este mulțimea graficelor de funcții parțiale pe $\Sigma^2$.
 
-\textbf{Demonstrație:} 
-Relația $\subseteq$ este evident o ordine parțială. Mulțimea minimă este $\perp = \emptyset \in \mathcal{R}$. 
+\textbf{Demonstrație:}
+Relația $\subseteq$ este evident o ordine parțială. Mulțimea minimă este $\perp = \emptyset \in \mathcal{R}$.
 Fie $(R_n)_{n \in \mathbb{N}}$ un $\omega$-lanț în $\mathcal{R}$, adică $R_0 \subseteq R_1 \subseteq R_2 \subseteq \dots$. Notăm $R = \bigcup_{n \in \mathbb{N}} R_n$. Trebuie să arătăm că $R \in \mathcal{R}$ (este graficul unei funcții parțiale).
 Fie $\sigma, \sigma', \sigma'' \in \Sigma$ astfel încât $(\sigma, \sigma') \in R$ și $(\sigma, \sigma'') \in R$. Din definiția reuniunii, există $i, j \in \mathbb{N}$ astfel încât $(\sigma, \sigma') \in R_i$ și $(\sigma, \sigma'') \in R_j$. Fie $k = \max(i, j)$. Deoarece $(R_n)$ este un lanț crescător, $R_i \subseteq R_k$ și $R_j \subseteq R_k$. Așadar, ambele perechi aparțin lui $R_k$. Dar $R_k \in \mathcal{R}$, deci prin definiție $\sigma' = \sigma''$. Rezultă că $R \in \mathcal{R}$, și cum reuniunea este evident supremumul în ordinea incluziunii, $(\mathcal{R}, \subseteq)$ este cpo.
 

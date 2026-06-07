@@ -1,18 +1,18 @@
-\section{C1: Preliminarii matematice}
+\section*{C1: Preliminarii matematice}
 
 Această secțiune recapitulează fundamentele matematice necesare studiului limbajelor de programare, bazându-se pe teoria mulțimilor și structuri de date inductive.
 
 \begin{itemize}
-    \item \textbf{Teoria Mulțimilor:} Toate obiectele matematice studiate sunt formalizate ca mulțimi. Se folosesc operațiile clasice: intersecție ($\cap$), reuniune ($\cup$), diferență ($\setminus$) și mulțimea părților ($\mathcal{P}(x)$).
-    \item \textbf{Mulțimi Moore:} O submulțime $A \subseteq \mathcal{P}(X)$ este o mulțime Moore pe $X$ dacă $X \in A$ și pentru orice $B \subseteq A$ nevidă, intersecția $\bigcap B \in A$. Acest concept este esențial pentru definirea celei mai mici mulțimi care respectă anumite proprietăți de închidere.
-    \item \textbf{Perechi ordonate și Produs Cartezian:} Perechea ordonată este definită în sens Kuratowski: $(x,y) := \{\{x\}, \{x,y\}\}$. Produsul cartezian $X \times Y$ este mulțimea tuturor perechilor ordonate posibile.
-    \item \textbf{Relații și Funcții:} 
-    \begin{itemize}
-        \item O \textit{relație binară} este o mulțime de perechi ordonate (o submulțime a unui produs cartezian).
-        \item Un \textit{grafic} este o relație care asociază fiecărui element din domeniu un element unic din codomeniu.
-        \item O \textit{funcție} este un triplet $(A, B, R)$, unde $A$ este domeniul, $B$ codomeniul, iar $R$ este graficul.
-    \end{itemize}
-    \item \textbf{Tipuri de date inductive (Formule):} Mulțimea formulelor ($Form$) se construiește inductiv pornind de la un set de variabile $V$ și aplicând constructori (conectori logici precum $\neg$, $\rightarrow$). Aceasta reprezintă minimul unei mulțimi Moore. Pe astfel de structuri se aplică Principiul Inducției și Principiul Recursiei Structurale.
+	\item \textbf{Teoria Mulțimilor:} Toate obiectele matematice studiate sunt formalizate ca mulțimi. Se folosesc operațiile clasice: intersecție ($\cap$), reuniune ($\cup$), diferență ($\setminus$) și mulțimea părților ($\mathcal{P}(x)$).
+	\item \textbf{Mulțimi Moore:} O submulțime $A \subseteq \mathcal{P}(X)$ este o mulțime Moore pe $X$ dacă $X \in A$ și pentru orice $B \subseteq A$ nevidă, intersecția $\bigcap B \in A$. Acest concept este esențial pentru definirea celei mai mici mulțimi care respectă anumite proprietăți de închidere.
+	\item \textbf{Perechi ordonate și Produs Cartezian:} Perechea ordonată este definită în sens Kuratowski: $(x,y) := \{\{x\}, \{x,y\}\}$. Produsul cartezian $X \times Y$ este mulțimea tuturor perechilor ordonate posibile.
+	\item \textbf{Relații și Funcții:}
+	      \begin{itemize}
+		      \item O \textit{relație binară} este o mulțime de perechi ordonate (o submulțime a unui produs cartezian).
+		      \item Un \textit{grafic} este o relație care asociază fiecărui element din domeniu un element unic din codomeniu.
+		      \item O \textit{funcție} este un triplet $(A, B, R)$, unde $A$ este domeniul, $B$ codomeniul, iar $R$ este graficul.
+	      \end{itemize}
+	\item \textbf{Tipuri de date inductive (Formule):} Mulțimea formulelor ($Form$) se construiește inductiv pornind de la un set de variabile $V$ și aplicând constructori (conectori logici precum $\neg$, $\rightarrow$). Aceasta reprezintă minimul unei mulțimi Moore. Pe astfel de structuri se aplică Principiul Inducției și Principiul Recursiei Structurale.
 \end{itemize}
 
 \subsection{Demonstrații din curs}
@@ -22,8 +22,8 @@ Această secțiune recapitulează fundamentele matematice necesare studiului lim
 
 \textbf{Demonstrație:}
 \begin{enumerate}
-    \item \textit{Unicitatea:} Presupunem că avem $C_1, C_2 \in A$ cu proprietatea de minim. Din definiție, rezultă că $C_1 \subseteq C_2$ și $C_2 \subseteq C_1$, deci $C_1 = C_2$.
-    \item \textit{Existența:} Cum $A$ este o mulțime Moore pe $X$, știm că $X \in A$, deci $A \neq \emptyset$. Putem defini intersecția $C := \bigcap A$. Conform definiției mulțimii Moore, $\bigcap A \in A$, deci $C \in A$. Din definiția intersecției unei familii de mulțimi, rezultă imediat că $C \subseteq D$ pentru orice $D \in A$.
+	\item \textit{Unicitatea:} Presupunem că avem $C_1, C_2 \in A$ cu proprietatea de minim. Din definiție, rezultă că $C_1 \subseteq C_2$ și $C_2 \subseteq C_1$, deci $C_1 = C_2$.
+	\item \textit{Existența:} Cum $A$ este o mulțime Moore pe $X$, știm că $X \in A$, deci $A \neq \emptyset$. Putem defini intersecția $C := \bigcap A$. Conform definiției mulțimii Moore, $\bigcap A \in A$, deci $C \in A$. Din definiția intersecției unei familii de mulțimi, rezultă imediat că $C \subseteq D$ pentru orice $D \in A$.
 \end{enumerate}
 
 \subsubsection{Propoziție: Apartenența perechii la Produsul Cartezian}
@@ -32,7 +32,7 @@ Această secțiune recapitulează fundamentele matematice necesare studiului lim
 \textbf{Demonstrație:}
 Trebuie să arătăm că pentru orice $z \in (x,y)$ avem $z \in \mathcal{P}(X \cup Y)$ (adică $z \subseteq X \cup Y$).
 Fie $z \in (x,y)$. Conform definiției Kuratowski, $(x,y) = \{\{x\}, \{x,y\}\}$, deci $z = \{x\}$ sau $z = \{x,y\}$.
-Fie $t \in z$. Avem două variante: $t=x$ sau $t=y$. Cum prin ipoteză $x \in X$ și $y \in Y$, rezultă că în ambele cazuri $t \in X$ sau $t \in Y$, deci $t \in X \cup Y$. 
+Fie $t \in z$. Avem două variante: $t=x$ sau $t=y$. Cum prin ipoteză $x \in X$ și $y \in Y$, rezultă că în ambele cazuri $t \in X$ sau $t \in Y$, deci $t \in X \cup Y$.
 Deoarece orice element $t \in z$ aparține reuniunii $X \cup Y$, avem $z \subseteq X \cup Y$, de unde concluzia.
 
 \subsubsection{Propoziție: Caracterizarea relațiilor binare}
@@ -42,7 +42,7 @@ Deoarece orice element $t \in z$ aparține reuniunii $X \cup Y$, avem $z \subset
 
 \textbf{Demonstrație:}
 Implicația $1 \Rightarrow 2$ este evidentă, deoarece elementele oricărui produs cartezian sunt perechi ordonate.
-Pentru $2 \Rightarrow 1$, notăm mulțimea $\bigcup \bigcup R$ atât cu $A$, cât și cu $B$. Fie $z \in R$. Din ipoteză, există $x, y$ astfel încât $z = (x,y) = \{\{x\}, \{x,y\}\} \in R$. 
+Pentru $2 \Rightarrow 1$, notăm mulțimea $\bigcup \bigcup R$ atât cu $A$, cât și cu $B$. Fie $z \in R$. Din ipoteză, există $x, y$ astfel încât $z = (x,y) = \{\{x\}, \{x,y\}\} \in R$.
 Așadar, $\{x\}$ și $\{x,y\}$ aparțin reuniunii $\bigcup R$. Mai departe, elementele $x, y \in \bigcup \bigcup R$.
 Prin urmare, $(x,y) \in \bigcup \bigcup R \times \bigcup \bigcup R = A \times B$, arătând astfel incluziunea cerută.
 
@@ -52,8 +52,8 @@ Prin urmare, $(x,y) \in \bigcup \bigcup R \times \bigcup \bigcup R = A \times B$
 \textbf{Schița Demonstrației:}
 Pentru \textit{existență}, definim relația $S \subseteq Form \times A$ ca fiind cea mai mică mulțime (intersecția tuturor mulțimilor Moore corespunzătoare) care respectă regulile recursive date. Trebuie demonstrat că $S$ este graficul unei funcții (pentru fiecare formulă există o unică valoare în $A$).
 
-Pentru a demonstra \textit{unicitatea evaluării} (că relația este funcțională), se folosește metoda reducerii la absurd și contrapusa principiului inducției. 
+Pentru a demonstra \textit{unicitatea evaluării} (că relația este funcțională), se folosește metoda reducerii la absurd și contrapusa principiului inducției.
 Fie $B$ mulțimea formulelor care au o unică imagine în $S$. Presupunem $B \neq Form$. Atunci, o regulă de construcție eșuează. Cel mai complex caz este când $\varphi_0, \psi_0 \in B$, dar formula compusă $\varphi_0 \rightarrow \psi_0 \notin B$.
 Aceasta înseamnă că perechea $(\varphi_0 \rightarrow \psi_0, G_\rightarrow(a_0, b_0)) \in S$, dar mai există și un alt rezultat $q \neq G_\rightarrow(a_0, b_0)$ cu $(\varphi_0 \rightarrow \psi_0, q) \in S$.
-Se construiește o nouă mulțime $T := S \setminus \{(\varphi_0 \rightarrow \psi_0, q)\}$. Folosind proprietatea de \textit{citire unică a formulelor} (care garantează că o formulă poate fi descompusă într-un singur mod valid), se demonstrează că $T$ respectă toate proprietățile inductive. 
+Se construiește o nouă mulțime $T := S \setminus \{(\varphi_0 \rightarrow \psi_0, q)\}$. Folosind proprietatea de \textit{citire unică a formulelor} (care garantează că o formulă poate fi descompusă într-un singur mod valid), se demonstrează că $T$ respectă toate proprietățile inductive.
 Acest lucru este o contradicție cu faptul că $S$ a fost definită ca fiind \textit{cea mai mică} mulțime cu aceste proprietăți, finalizând astfel demonstrația.

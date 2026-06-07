@@ -1,0 +1,112 @@
+\section*{C8: Lambda-calcul cu tipuri simple și PCF}
+
+\subsection*{1. Deducerea tipului}
+
+Considerăm
+\[
+	T=(\lambda z.\lambda u.z)(yx).
+\]
+Tiparea principală a variabilelor libere are forma
+\[
+	\Gamma=\{x:\rho,\ y:\rho\to\beta\}.
+\]
+Pentru o variabilă de tip nou $\gamma$, obținem
+\[
+\frac{
+	\frac{
+		\frac{\Gamma\cup\{z:\beta,u:\gamma\}\vdash z:\beta}
+		{\Gamma\cup\{z:\beta\}\vdash\lambda u.z:\gamma\to\beta}
+	}{
+		\Gamma\vdash\lambda z.\lambda u.z:
+		\beta\to(\gamma\to\beta)
+	}
+	\qquad
+	\frac{
+		\Gamma\vdash y:\rho\to\beta
+		\qquad
+		\Gamma\vdash x:\rho
+	}{
+		\Gamma\vdash yx:\beta
+	}
+}{
+	\Gamma\vdash(\lambda z.\lambda u.z)(yx):\gamma\to\beta
+}.
+\]
+În exemplul à la Church din curs se ia
+$\rho=\alpha\to\alpha$, deci
+$x:\alpha\to\alpha$ și
+$y:(\alpha\to\alpha)\to\beta$.
+
+\subsection*{2. Relația dintre prezentările Church și Curry}
+
+În prezentarea Church, variabilele sunt alese din mulțimi disjuncte,
+câte una pentru fiecare tip. În exemplu avem intrinsec
+\[
+	x:\rho,\qquad y:\rho\to\beta,\qquad
+	z:\beta,\qquad u:\gamma,
+\]
+iar termenul este bine format prin construcție. În prezentarea Curry,
+termenul nu conține tipuri; aceleași informații sunt furnizate de
+context și de derivarea $\Gamma\vdash T:\gamma\to\beta$. Uitarea
+tipurilor intrinseci trece de la Church la Curry, iar o derivare Curry
+determină o atribuire Church compatibilă.
+
+\subsection*{3. PCF: adunarea}
+
+Notăm
+\[
+	\mathsf{add}:=
+	\mathsf{fix}(f,\lambda x.\lambda y.
+	\mathsf{ifz}(y,x,w,\mathsf{s}((fx)w))).
+\]
+Regulile de tipare dau
+\[
+	\vdash\mathsf{add}:\mathbb N\to(\mathbb N\to\mathbb N).
+\]
+Într-adevăr, în contextul
+$f:\mathbb N\to\mathbb N\to\mathbb N$ și $x,y:\mathbb N$, ambele ramuri
+ale lui $\mathsf{ifz}$ au tipul $\mathbb N$.
+
+Pentru valori $M,N:\mathbb N$, regulile eager dau
+\[
+	\mathsf{add}\ M\ \mathsf z\to^* M
+\]
+și
+\[
+	\mathsf{add}\ M\ \mathsf{s}(N)
+	\to^*\mathsf{s}(\mathsf{add}\ M\ N).
+\]
+Acestea sunt exact ecuațiile recursive
+$m+0=m$ și $m+(n+1)=(m+n)+1$.
+
+\subsection*{4. PCF: scăderea cu punct}
+
+Notăm
+\[
+	\mathsf{monus}:=
+	\mathsf{fix}(f,\lambda x.\lambda y.
+	\mathsf{ifz}(y,x,w,\mathsf{ifz}(x,\mathsf z,u,(fu)w))).
+\]
+Din aceleași reguli,
+\[
+	\vdash\mathsf{monus}:\mathbb N\to(\mathbb N\to\mathbb N).
+\]
+Pentru valori $M,N:\mathbb N$:
+\[
+	\begin{aligned}
+		\mathsf{monus}\ M\ \mathsf z
+		&\to^* M,\\
+		\mathsf{monus}\ \mathsf z\ \mathsf{s}(N)
+		&\to^*\mathsf z,\\
+		\mathsf{monus}\ \mathsf{s}(M)\ \mathsf{s}(N)
+		&\to^*\mathsf{monus}\ M\ N.
+	\end{aligned}
+\]
+Prin inducție după al doilea argument, termenul reprezintă funcția
+\[
+	m\mathbin{\dot{-}}n=
+	\begin{cases}
+		m-n,&m\geq n,\\
+		0,&m<n.
+	\end{cases}
+\]

@@ -1,19 +1,19 @@
-\section{C5: Programare Logica}
+\section*{C5: Programare Logica}
 \subsection{Teorie}
 \subsubsection{Reminder: Logica de Ordinul I}
 
-Logica de ordinul I extinde logica propozițională pentru a putea exprima fapte despre obiecte, relații și cuantificatori. 
+Logica de ordinul I extinde logica propozițională pentru a putea exprima fapte despre obiecte, relații și cuantificatori.
 
 \begin{itemize}
-    \item \textbf{Alfabetul:} Variabile logice $V = \{x_0, x_1, \dots\}$, constante și simboluri logice ($\perp, \rightarrow, \forall, =$).
-    \item \textbf{Signatura $\sigma = (F, R, r)$:} Definește limbajul. Conține simboluri de funcții ($F$), simboluri de relații ($R$) și o funcție de aritate $r : F \cup R \to \mathbb{N}$. Constantele sunt funcții cu aritate 0.
-    \item \textbf{Termenii ($T_\sigma$):} Reprezintă „obiectele”. Sunt formați recursiv din variabile și aplicarea simbolurilor de funcții (ex: $x$, $f(x, y)$, $g(c)$).
-    \item \textbf{Formulele ($F_\sigma$):} Reprezintă „afirmațiile”. 
-    \begin{itemize}
-        \item \textit{Formule atomice:} ecuații $t = u$ sau relații $R(t_1, \dots, t_n)$.
-        \item \textit{Formule compuse:} obținute folosind conectori și cuantificatori (ex: $\varphi \rightarrow \psi$, $\forall x \varphi$).
-    \end{itemize}
-    \item \textbf{Structuri și Semantică:} O $\sigma$-structură $\mathcal{A}$ asociază fiecărui simbol o semnificație concretă (univers de discurs, funcții și relații matematice). Spunem că $\mathcal{A} \models \varphi$ dacă structura satisface formula $\varphi$.
+	\item \textbf{Alfabetul:} Variabile logice $V = \{x_0, x_1, \dots\}$, constante și simboluri logice ($\perp, \rightarrow, \forall, =$).
+	\item \textbf{Signatura $\sigma = (F, R, r)$:} Definește limbajul. Conține simboluri de funcții ($F$), simboluri de relații ($R$) și o funcție de aritate $r : F \cup R \to \mathbb{N}$. Constantele sunt funcții cu aritate 0.
+	\item \textbf{Termenii ($T_\sigma$):} Reprezintă „obiectele”. Sunt formați recursiv din variabile și aplicarea simbolurilor de funcții (ex: $x$, $f(x, y)$, $g(c)$).
+	\item \textbf{Formulele ($F_\sigma$):} Reprezintă „afirmațiile”.
+	      \begin{itemize}
+		      \item \textit{Formule atomice:} ecuații $t = u$ sau relații $R(t_1, \dots, t_n)$.
+		      \item \textit{Formule compuse:} obținute folosind conectori și cuantificatori (ex: $\varphi \rightarrow \psi$, $\forall x \varphi$).
+	      \end{itemize}
+	\item \textbf{Structuri și Semantică:} O $\sigma$-structură $\mathcal{A}$ asociază fiecărui simbol o semnificație concretă (univers de discurs, funcții și relații matematice). Spunem că $\mathcal{A} \models \varphi$ dacă structura satisface formula $\varphi$.
 \end{itemize}
 
 \subsubsection{Unificarea și Teorema de Unificare}
@@ -22,20 +22,20 @@ Unificarea este procesul de găsire a unei substituții care face ca doi termeni
 
 \subsubsection{Substituții și Unificatori}
 \begin{itemize}
-    \item \textbf{Substituția:} O funcție $\theta : V \to T_\sigma$ (înlocuiește variabile cu termeni). Se extinde unic la $\tilde{\theta} : T_\sigma \to T_\sigma$ prin aplicare structurală pe termeni.
-    \item \textbf{Unificator:} Dată o mulțime de ecuații $\mathcal{E}$, o substituție $\theta$ este unificator dacă $\tilde{\theta}(s) = \tilde{\theta}(t)$ pentru orice ecuație $(s=t) \in \mathcal{E}$.
-    \item \textbf{Cel mai general unificator (cgu / mgu):} Unificatorul $\theta$ este \textit{cgu} dacă pentru orice alt unificator $\theta'$ există o substituție $\omega$ astfel încât $\theta' = \tilde{\omega} \circ \theta$.
+	\item \textbf{Substituția:} O funcție $\theta : V \to T_\sigma$ (înlocuiește variabile cu termeni). Se extinde unic la $\tilde{\theta} : T_\sigma \to T_\sigma$ prin aplicare structurală pe termeni.
+	\item \textbf{Unificator:} Dată o mulțime de ecuații $\mathcal{E}$, o substituție $\theta$ este unificator dacă $\tilde{\theta}(s) = \tilde{\theta}(t)$ pentru orice ecuație $(s=t) \in \mathcal{E}$.
+	\item \textbf{Cel mai general unificator (cgu / mgu):} Unificatorul $\theta$ este \textit{cgu} dacă pentru orice alt unificator $\theta'$ există o substituție $\omega$ astfel încât $\theta' = \tilde{\omega} \circ \theta$.
 \end{itemize}
 
 \subsubsection{Algoritmul de Unificare}
 Primește la intrare o mulțime de ecuații $\mathcal{E}$ și returnează un \textit{cgu} sau „eșec”. Se aplică iterativ următoarele reguli până când niciuna nu mai poate fi aplicată:
 \begin{enumerate}
-    \item \textbf{Descompunere:} $f(s_1, \dots, s_n) = f(t_1, \dots, t_n) \implies s_1=t_1, \dots, s_n=t_n$.
-    \item \textbf{Conflict (Clash):} $f(\dots) = g(\dots)$ cu $f \neq g \implies$ \textbf{eșec}.
-    \item \textbf{Ștergere:} $x = x \implies$ se elimină.
-    \item \textbf{Orientare:} $t = x$ (unde $t \notin V$) $\implies x = t$.
-    \item \textbf{Occur-check:} $x = t$ cu $x \in Var(t)$ și $x \neq t \implies$ \textbf{eșec} (un termen nu se poate unifica cu un termen care îl conține strict).
-    \item \textbf{Eliminare/Substituție:} $x = t$ cu $x \notin Var(t)$ și $x$ apare în alte ecuații $\implies$ se substituie $x$ cu $t$ peste tot în restul lui $\mathcal{E}$.
+	\item \textbf{Descompunere:} $f(s_1, \dots, s_n) = f(t_1, \dots, t_n) \implies s_1=t_1, \dots, s_n=t_n$.
+	\item \textbf{Conflict (Clash):} $f(\dots) = g(\dots)$ cu $f \neq g \implies$ \textbf{eșec}.
+	\item \textbf{Ștergere:} $x = x \implies$ se elimină.
+	\item \textbf{Orientare:} $t = x$ (unde $t \notin V$) $\implies x = t$.
+	\item \textbf{Occur-check:} $x = t$ cu $x \in Var(t)$ și $x \neq t \implies$ \textbf{eșec} (un termen nu se poate unifica cu un termen care îl conține strict).
+	\item \textbf{Eliminare/Substituție:} $x = t$ cu $x \notin Var(t)$ și $x$ apare în alte ecuații $\implies$ se substituie $x$ cu $t$ peste tot în restul lui $\mathcal{E}$.
 \end{enumerate}
 
 \subsubsection{Teorema de Unificare}
@@ -49,12 +49,12 @@ Primește la intrare o mulțime de ecuații $\mathcal{E}$ și returnează un \te
 
 \textbf{Demonstrație:}
 \begin{itemize}
-    \item \textit{Este unificator:} Prin definiție, aplicând $\theta$ peste $z_i$ obținem $t_i$. Cum $z_i$ nu apare în niciun $t_j$, $\tilde{\theta}(t_i) = t_i$. Deci $\tilde{\theta}(z_i) = \tilde{\theta}(t_i)$.
-    \item \textit{Este cgu:} Fie $\theta'$ un alt unificator pentru $\mathcal{E}$. Definim $\omega := \theta'$. Vrem să arătăm că $\theta' = \tilde{\omega} \circ \theta$.
-    Evaluăm pe variabilele $z_i$: 
-    $$(\tilde{\omega} \circ \theta)(z_i) = \tilde{\theta'}(\theta(z_i)) = \tilde{\theta'}(t_i)$$
-    Deoarece $\theta'$ unifică $z_i = t_i$, avem $\tilde{\theta'}(z_i) = \tilde{\theta'}(t_i)$, deci $\tilde{\theta'}(t_i) = \theta'(z_i)$. Astfel obținem $(\tilde{\omega} \circ \theta)(z_i) = \theta'(z_i)$.
-    Pentru orice altă variabilă $y \notin \{z_1, \dots, z_n\}$, $\theta(y) = y$, deci $(\tilde{\omega} \circ \theta)(y) = \tilde{\theta'}(y) = \theta'(y)$. Așadar, $\theta' = \tilde{\omega} \circ \theta$.
+	\item \textit{Este unificator:} Prin definiție, aplicând $\theta$ peste $z_i$ obținem $t_i$. Cum $z_i$ nu apare în niciun $t_j$, $\tilde{\theta}(t_i) = t_i$. Deci $\tilde{\theta}(z_i) = \tilde{\theta}(t_i)$.
+	\item \textit{Este cgu:} Fie $\theta'$ un alt unificator pentru $\mathcal{E}$. Definim $\omega := \theta'$. Vrem să arătăm că $\theta' = \tilde{\omega} \circ \theta$.
+	      Evaluăm pe variabilele $z_i$:
+	      $$(\tilde{\omega} \circ \theta)(z_i) = \tilde{\theta'}(\theta(z_i)) = \tilde{\theta'}(t_i)$$
+	      Deoarece $\theta'$ unifică $z_i = t_i$, avem $\tilde{\theta'}(z_i) = \tilde{\theta'}(t_i)$, deci $\tilde{\theta'}(t_i) = \theta'(z_i)$. Astfel obținem $(\tilde{\omega} \circ \theta)(z_i) = \theta'(z_i)$.
+	      Pentru orice altă variabilă $y \notin \{z_1, \dots, z_n\}$, $\theta(y) = y$, deci $(\tilde{\omega} \circ \theta)(y) = \tilde{\theta'}(y) = \theta'(y)$. Așadar, $\theta' = \tilde{\omega} \circ \theta$.
 \end{itemize}
 
 \subsubsection{Demonstrația Teoremei de Unificare}
@@ -71,14 +71,14 @@ Fie ecuația eliminatoare $x=t$ (cu $x \notin Var(t)$) și notăm cu $\psi$ subs
 Fie $\theta$ un unificator pentru sistemul inițial. Deci $\theta(x) = \tilde{\theta}(t)$ și $\tilde{\theta}(s) = \tilde{\theta}(u)$.
 Arătăm întâi că $\tilde{\theta} \circ \psi = \theta$:
 Pentru $x$, avem $(\tilde{\theta} \circ \psi)(x) = \tilde{\theta}(t) = \theta(x)$.
-Pentru $y \neq x$, avem $(\tilde{\theta} \circ \psi)(y) = \tilde{\theta}(y) = \theta(y)$. 
+Pentru $y \neq x$, avem $(\tilde{\theta} \circ \psi)(y) = \tilde{\theta}(y) = \theta(y)$.
 Deci identitatea este adevărată.
 Folosind identitatea de mai sus pentru ecuațiile noi $\tilde{\psi}(s) = \tilde{\psi}(u)$:
 $$\tilde{\theta}(\tilde{\psi}(s)) = (\tilde{\theta} \circ \psi)(s) = \tilde{\theta}(s)$$
 $$\tilde{\theta}(\tilde{\psi}(u)) = (\tilde{\theta} \circ \psi)(u) = \tilde{\theta}(u)$$
 Cum $\tilde{\theta}(s) = \tilde{\theta}(u)$, rezultă că $\theta$ unifică și noua formă a ecuației.
 
-Invers, fie $\theta$ un unificator pentru sistemul rezultat. Avem din nou $\theta(x) = \tilde{\theta}(t)$ (din ecuația menținută $x=t$). Similar se demonstrează că $\tilde{\theta} \circ \psi = \theta$. 
+Invers, fie $\theta$ un unificator pentru sistemul rezultat. Avem din nou $\theta(x) = \tilde{\theta}(t)$ (din ecuația menținută $x=t$). Similar se demonstrează că $\tilde{\theta} \circ \psi = \theta$.
 Din faptul că $\theta$ unifică ecuația modificată $\tilde{\psi}(s) = \tilde{\psi}(u)$, avem:
 $$\tilde{\theta}(\tilde{\psi}(s)) = \tilde{\theta}(\tilde{\psi}(u)) \implies (\tilde{\theta} \circ \psi)(s) = (\tilde{\theta} \circ \psi)(u) \implies \tilde{\theta}(s) = \tilde{\theta}(u)$$
 Deci $\theta$ era unificator și pentru sistemul inițial, demonstrând conservarea mulțimii soluțiilor la fiecare pas.
