@@ -1,0 +1,130 @@
+\section{Logica Hoare}
+
+\subsection{Exercițiul 1}
+
+Regula consecinței
+
+\[
+	\frac{\models A \rightarrow A' \quad \{A'\} c \{B'\} \quad \models B' \rightarrow B}{\{A\} c \{B\}}
+\]
+
+Este o \textbf{pseudo-regulă}, fiindcă nu este decidabil dacă o aplicare a ei
+este corectă.
+
+\textbf{Justificare.}
+Pentru a verifica o aplicare trebuie să decidem validitatea formulelor
+$A\rightarrow A'$ și $B'\rightarrow B$. Validitatea formulelor din logica de
+ordinul I este indecidabilă.
+
+Mai precis, fie $\varphi$ o aserțiune arbitrară. Avem
+\[
+	\frac{\models \mathit{true}\rightarrow\varphi
+		\quad \{\varphi\}\ \instr{skip}\ \{\varphi\}
+		\quad \models\varphi\rightarrow\mathit{true}}
+	{\{\mathit{true}\}\ \instr{skip}\ \{\mathit{true}\}}.
+\]
+Premisa din mijloc este o instanță a axiomei pentru $\instr{skip}$, iar ultima
+este mereu validă. Prima este validă exact atunci când
+$\models\varphi$. Deci, dacă am putea decide dacă această aplicare a regulii
+este corectă, am putea decide validitatea oricărei formule $\varphi$, ceea ce
+este imposibil.
+
+Regula rămâne însă \textbf{corectă}: dacă cele trei premise sunt adevărate,
+atunci și concluzia este adevărată. „Pseudo” se referă doar la faptul că
+aplicabilitatea ei nu poate fi verificată algoritmic în general.
+
+\subsection{Exercițiul 2}
+
+Pentru orice $A,B,c,I$, demonstrăm că
+\[
+	\models^I\{A\}c\{B\}
+	\iff
+	A^I\subseteq ws^I(c,B),
+\]
+unde
+\[
+	A^I=\{\sigma\in\Sigma\mid \sigma\models^I A\}
+\]
+și
+\[
+	ws^I(c,B)=
+	\{\sigma\in\Sigma\mid
+	\forall\sigma'\,((\sigma,\sigma')\in\llbracket c\rrbracket
+	\Rightarrow \sigma'\models^I B)\}.
+\]
+
+\textbf{$(\Rightarrow)$}
+Presupunem $\models^I\{A\}c\{B\}$ și fie $\sigma\in A^I$.
+Atunci $\sigma\models^I A$. Din semantica enunțului Hoare, pentru orice
+$\sigma'$ cu $(\sigma,\sigma')\in\llbracket c\rrbracket$, avem
+$\sigma'\models^I B$. Deci $\sigma\in ws^I(c,B)$.
+
+\textbf{$(\Leftarrow)$}
+Presupunem $A^I\subseteq ws^I(c,B)$. Fie
+$(\sigma,\sigma')\in\llbracket c\rrbracket$ și presupunem
+$\sigma\models^I A$. Atunci $\sigma\in A^I$, deci
+$\sigma\in ws^I(c,B)$. Prin definiția lui $ws^I$, rezultă
+$\sigma'\models^I B$. Așadar $\models^I\{A\}c\{B\}$.
+
+
+\subsection{Exercițiul 3}
+Exercițiul din pagina 23 din cursul 4.
+
+Presupunem că limbajul permite disjuncții infinitare și că
+$w:=\mathbf{while}\ b\ \mathbf{do}\ c$ se termină din orice stare. Definim
+\[
+	P_0:=\neg b\land B,\qquad
+	P_{k+1}:=b\land wp(c,P_k),
+\]
+și
+\[
+	wp(w,B):=\bigvee_{k\in\mathbb N}P_k.
+\]
+
+Pentru incluziunea $ws^I(w,B)\subseteq wp(w,B)^I$, fie
+$\sigma\in ws^I(w,B)$. Cum $w$ se termină, există o execuție finită
+\[
+	\sigma_0=\sigma,\ \sigma_1,\ldots,\sigma_n
+\]
+astfel încât, pentru $i<n$,
+\[
+	\sigma_i\models^I b,\qquad
+	(\sigma_i,\sigma_{i+1})\in\llbracket c\rrbracket,
+\]
+iar $\sigma_n\models^I\neg b\land B$.
+
+\textbf{Ce demonstrăm.}
+Prin inducție după $j$, pentru orice $0\leq j\leq n$,
+\[
+	\sigma_{n-j}\models^I P_j.
+\]
+
+\textbf{Cazul de bază: $j=0$.}
+Avem $\sigma_n\models^I\neg b\land B=P_0$, deoarece bucla s-a oprit în
+$\sigma_n$, iar $\sigma\in ws^I(w,B)$ garantează postcondiția $B$.
+
+\textbf{Pasul inductiv.}
+Presupunem, pentru $j<n$, că
+$\sigma_{n-j}\models^I P_j$. Notăm $i:=n-j-1$. Din descrierea execuției,
+\[
+	\sigma_i\models^I b,\qquad
+	(\sigma_i,\sigma_{i+1})\in\llbracket c\rrbracket,
+	\qquad \sigma_{i+1}\models^I P_j.
+\]
+Semantica lui $c$ este deterministă; deci orice stare finală obținută
+executând $c$ din $\sigma_i$ este $\sigma_{i+1}$ și satisface $P_j$.
+Prin definiția celei mai slabe precondiții,
+\[
+	\sigma_i\models^I wp(c,P_j).
+\]
+Împreună cu $\sigma_i\models^I b$, rezultă
+\[
+	\sigma_i\models^I b\land wp(c,P_j)=P_{j+1}.
+\]
+Cum $i=n-(j+1)$, pasul inductiv este demonstrat.
+
+Pentru $j=n$ obținem
+\[
+	\sigma=\sigma_0\models^I P_n,
+\]
+deci $\sigma\models^I\bigvee_{k\in\mathbb N}P_k=wp(w,B)$.
