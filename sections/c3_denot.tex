@@ -1,0 +1,66 @@
+\section{Semantica Denotațională}
+
+\subsection{Fundamente Teoretice}
+
+Spre deosebire de semantica operațională care definește modul de execuție pas cu pas, semantica denotațională dă un înțeles fiecărei instrucțiuni prin asocierea unor obiecte matematice (mulțimi, funcții), notată tradițional cu $\llbracket \cdot \rrbracket$.
+\begin{itemize}
+    \item \textbf{Expresii:} Expresiile aritmetice iau valori în funcții de la stări ($\Sigma$) la numere, $\llbracket a \rrbracket : \Sigma \to \mathbb{Z}$, iar cele booleene în funcții către $\{0,1\}$.
+    \item \textbf{Instrucțiuni simple și compuse:} Semantica unei instrucțiuni este o relație pe stări, $\llbracket c \rrbracket \subseteq \Sigma^2$. Compoziția secvențială se definește prin compunerea relațiilor matematice.
+    \item \textbf{Instrucțiunea while:} Deoarece definiția sa este structural recursivă, semantica instrucțiunii \textit{while} necesită utilizarea conceptului de cel mai mic punct fix (least fixed point - lfp) pentru un operator monoton construit pe baza condiției și a corpului buclei.
+    \item \textbf{Domenii și CPO:} Pentru a garanta că semantica denotațională generează funcții parțiale (rezultat determinist) și a asigura existența punctului fix, se utilizează mulțimi parțial ordonate complete (CPO) și Teorema lui Kleene în locul Teoremei Knaster-Tarski care se aplică pe toată mulțimea părților.
+    \item \textbf{Abordarea Algebrică:} Întregul limbaj IMP poate fi modelat ca o algebră inițială peste o signatură multisortată, iar funcția semanticii $\llbracket \cdot \rrbracket$ reprezintă unicul morfism de la algebra sintaxei la algebra valorilor denotaționale.
+\end{itemize}
+
+\subsection{Demonstrații din curs și Exerciții}
+
+\subsubsection{Demonstrația Teoremei Knaster-Tarski}
+\textbf{Enunț:} Fie $X$ o mulțime și $F : \mathcal{P}(X) \to \mathcal{P}(X)$ un operator crescător. Atunci $F$ are un cel mai mic punct fix (lfp).
+
+\textbf{Demonstrație:}
+Notăm $Z := \bigcap \{ Y \subseteq X \mid F(Y) \subseteq Y \}$. Trebuie să arătăm că $Z$ este punct fix.
+\begin{enumerate}
+    \item Arătăm că $F(Z) \subseteq Z$. Fie $x \in F(Z)$ și $Y \subseteq X$ arbitrar cu $F(Y) \subseteq Y$. Cum $Z \subseteq Y$ prin definiția intersecției, avem $F(Z) \subseteq F(Y) \subseteq Y$, deci $x \in Y$. Fiind valabil pentru orice astfel de $Y$, rezultă $x \in Z$, așadar $F(Z) \subseteq Z$.
+    \item Arătăm că $Z \subseteq F(Z)$. Din faptul că $F$ este crescător și $F(Z) \subseteq Z$, obținem aplicând $F$ că $F(F(Z)) \subseteq F(Z)$. Așadar, $F(Z)$ face parte din familia de mulțimi din care se obține $Z$ prin intersecție. Prin urmare, intersecția $Z$ este inclusă în $F(Z)$, adică $Z \subseteq F(Z)$.
+\end{enumerate}
+Din cele două incluziuni rezultă $F(Z) = Z$.
+
+\subsubsection{Demonstrația Echivalenței între Semantici}
+\textbf{Enunț:} Pentru orice instrucțiune $c$ și stări $\sigma, \sigma' \in \Sigma$, $(c, \sigma) \Downarrow \sigma'$ dacă și numai dacă $(\sigma, \sigma') \in \llbracket c \rrbracket$.
+
+\textbf{Demonstrație ($\Rightarrow$):} Facem inducție după regulile de derivare pentru relația operațională. Pentru cazul instrucțiunii \textit{while} (notată $w$), fie stările $\sigma, \sigma', \sigma''$ astfel încât $\llbracket b \rrbracket(\sigma) = 1$. Din ipoteza de inducție avem $(\sigma, \sigma'') \in \llbracket c \rrbracket$ și $(\sigma'', \sigma') \in \llbracket w \rrbracket$. Prin ecuația de punct fix pe care o satisface $\llbracket w \rrbracket$, derivăm direct că $(\sigma, \sigma') \in \llbracket w \rrbracket$.
+
+\textbf{Demonstrație ($\Leftarrow$):} Arătăm prin inducție structurală pe $c$. Pentru cazul cel mai complex, $w := \mathbf{while}\ b\ \mathbf{do}\ c$, notăm $W := \{ (\sigma, \sigma') \mid (w, \sigma) \Downarrow \sigma' \}$ și vrem să demonstrăm că $\llbracket w \rrbracket \subseteq W$. Cum $\llbracket w \rrbracket = \mu \Gamma_{\llbracket c \rrbracket}^{\llbracket b \rrbracket}$, este suficient să arătăm că $\Gamma_{\llbracket c \rrbracket}^{\llbracket b \rrbracket}(W) \subseteq W$. Tratăm cazul $\llbracket b \rrbracket(\sigma)=1$: există $\sigma''$ cu $(\sigma, \sigma'') \in \llbracket c \rrbracket$ și $(\sigma'', \sigma') \in W$. Aplicând ipoteza inductivă, $(c, \sigma) \Downarrow \sigma''$ și din definiția lui $W$, $(w, \sigma'') \Downarrow \sigma'$. Combinându-le cu semantica big-step, obținem $(w, \sigma) \Downarrow \sigma'$, adică $(\sigma, \sigma') \in W$.
+
+\subsubsection{Demonstrația Teoremei Kleene}
+\textbf{Enunț:} Fie $(D, \leq)$ un cpo și $f: D \to D$ funcție $\omega$-continuă. Atunci $f$ are lfp.
+
+\textbf{Demonstrație:}
+Observăm că șirul $(f^{(n)}(\perp))_{n \in \mathbb{N}}$ este un lanț crescător, deoarece $\perp \leq f(\perp)$ și funcția e monotonă. Notăm $d := \sup_{n \in \mathbb{N}} f^{(n)}(\perp)$. 
+Datorită $\omega$-continuității lui $f$, avem:
+$f(d) = f(\sup f^{(n)}(\perp)) = \sup f^{(n+1)}(\perp) = \sup f^{(n)}(\perp) = d$, deci $d$ este punct fix. 
+Mai mult, pentru orice punct fix $e$ (unde $f(e) \leq e$), se demonstrează inductiv că $f^{(n)}(\perp) \leq e$, de unde deducem că supremumul $d \leq e$, deci este cel mai mic.
+
+\subsubsection{Proprietățile algebrelor inițiale}
+\textbf{Propoziția 1:} Algebrele inițiale sunt unic determinate până la un izomorfism.
+\textbf{Justificare:} Dacă $\mathcal{A}$ și $\mathcal{A}'$ sunt inițiale, există morfisme unice $f: \mathcal{A} \to \mathcal{A}'$ și $g: \mathcal{A}' \to \mathcal{A}$. Compunerea $g \circ f : \mathcal{A} \to \mathcal{A}$ trebuie să fie egală cu morfismul identitate $id_{\mathcal{A}}$ conform unicității din definiția algebrei inițiale. Analog, $f \circ g = id_{\mathcal{A}'}$, deci $f$ și $g$ sunt izomorfisme.
+
+\subsubsection{Exercițiu 1: $(\mathcal{R}, \subseteq)$ este o CPO}
+\textbf{Cerinta:} Arătați că $(\mathcal{R}, \subseteq)$ este un CPO, unde $\mathcal{R}$ este mulțimea graficelor de funcții parțiale pe $\Sigma^2$.
+
+\textbf{Demonstrație:} 
+Relația $\subseteq$ este evident o ordine parțială. Mulțimea minimă este $\perp = \emptyset \in \mathcal{R}$. 
+Fie $(R_n)_{n \in \mathbb{N}}$ un $\omega$-lanț în $\mathcal{R}$, adică $R_0 \subseteq R_1 \subseteq R_2 \subseteq \dots$. Notăm $R = \bigcup_{n \in \mathbb{N}} R_n$. Trebuie să arătăm că $R \in \mathcal{R}$ (este graficul unei funcții parțiale).
+Fie $\sigma, \sigma', \sigma'' \in \Sigma$ astfel încât $(\sigma, \sigma') \in R$ și $(\sigma, \sigma'') \in R$. Din definiția reuniunii, există $i, j \in \mathbb{N}$ astfel încât $(\sigma, \sigma') \in R_i$ și $(\sigma, \sigma'') \in R_j$. Fie $k = \max(i, j)$. Deoarece $(R_n)$ este un lanț crescător, $R_i \subseteq R_k$ și $R_j \subseteq R_k$. Așadar, ambele perechi aparțin lui $R_k$. Dar $R_k \in \mathcal{R}$, deci prin definiție $\sigma' = \sigma''$. Rezultă că $R \in \mathcal{R}$, și cum reuniunea este evident supremumul în ordinea incluziunii, $(\mathcal{R}, \subseteq)$ este cpo.
+
+\subsubsection{Exercițiu 2: Operatorul $\tilde{\Gamma}$ este bine-definit și $\omega$-continuu}
+\textbf{Cerința:} Arătați că operatorul adaptat pe funcții parțiale $\tilde{\Gamma}_C^h : \mathcal{R} \to \mathcal{R}$ este bine-definit și $\omega$-continuu.
+
+\textbf{Demonstrație (Bine-definit):} Fie $A \in \mathcal{R}$. Operatorul se bazează pe evaluarea deterministă a unei condiții $h(\sigma) \in \{0,1\}$. Din determinismul lui $h$, cazurile $h(\sigma)=1$ și $h(\sigma)=0$ partiționează stările inițiale în două mulțimi disjuncte. Pe ramura $h(\sigma)=0$, starea finală este strict $\sigma$ (identitatea e funcție). Pe ramura $h(\sigma)=1$, tranziția compusă cere $(\sigma, \sigma'') \in C \in \mathcal{R}$ și $(\sigma'', \sigma') \in A \in \mathcal{R}$. Compunerea a două relații funcționale este de asemenea o relație funcțională (funcție parțială). Prin urmare, reuniunea celor două cazuri disjuncte rămâne o funcție parțială, așadar $\tilde{\Gamma}_C^h(A) \in \mathcal{R}$.
+
+\textbf{Demonstrație ($\omega$-continuitate):} Fie $(A_n)_{n \in \mathbb{N}}$ un lanț în $\mathcal{R}$. Reuniunea lor arbitrară (supremumul) comută cu precondiționarea logică și cu compunerea relațională. Adică compunerea $C \circ (\bigcup A_n) = \bigcup (C \circ A_n)$. Cum operațiile de selecție după $h(\sigma)$ și compunerea distribuie față de reuniune, obținem $\tilde{\Gamma}_C^h(\sup A_n) = \sup \tilde{\Gamma}_C^h(A_n)$.
+
+\subsubsection{Exercițiu 3: Incluziunea este morfism?}
+\textbf{Cerința:} Confirmati sau infirmati dacă funcția naturală de incluziune de la algebra funcțiilor parțiale $\mathcal{B}$ la algebra relațiilor $\mathcal{A}$ este morfism.
+
+\textbf{Răspuns: Confirmat.}
+Funcția de incluziune $\iota : \mathcal{B} \to \mathcal{A}$ asociază graficului oricărei funcții parțiale o relație simplă, cu aceeași structură de mulțime. Operațiile în algebra $\mathcal{B}$ sunt construite exact ca restricții ale operațiilor din algebra $\mathcal{A}$ (e.g., compunerea funcțiilor parțiale este exact compunerea relațiilor lor, $\cup$ pe ramuri disjuncte din \textit{if} acționează la fel). Pentru $\textit{while}$, cel mai mic punct fix calculat în $\mathcal{B}$ coincide structural cu cel din $\mathcal{A}$. Așadar, $\iota(O_{\mathcal{B}}(x)) = O_{\mathcal{A}}(\iota(x))$, adică este morfism.
